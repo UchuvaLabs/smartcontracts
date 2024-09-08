@@ -1,55 +1,104 @@
-# Funcionalidades del SmartContract
+# UchuvaLabs
 
-#### **Creación de Proyectos de Cultivo:**
-- El contrato permitirá crear múltiples proyectos de cultivo, cada uno identificado con un ID único.
-- Durante la creación de un proyecto, se definen los hitos o etapas de liberación de fondos, así como los porcentajes de distribución de las ganancias entre el agrónomo, el cultivador, la plataforma y los inversionistas.
-- Los hitos determinan cuándo se pueden liberar los fondos y las comisiones se distribuyen de manera predefinida (por ejemplo, 60% para el cultivador, 10% para la plataforma, 2% para el agrónomo, y 28% para los inversionistas).
+### **1. Creación de Proyectos Agrícolas descentralizados**
+- **Actores Involucrados:**
+    - **Plataforma/Admin:** La plataforma es el actor que controla la creación de proyectos. Solo la plataforma puede crear proyectos agrícolas y establecer los términos de cada proyecto, como los hitos (milestones) y los porcentajes de participación de las partes involucradas.
+    - **Cultivador:** Es el responsable de llevar a cabo el proyecto agrícola. La plataforma asigna una dirección de wallet para el cultivador en cada proyecto.
+    - **Agrónomo:** La plataforma también asigna un agrónomo al proyecto, quien tendrá un rol en la supervisión técnica del mismo. El agrónomo recibe una comisión por su participación.
 
-#### **Ingreso de AVAX a un Proyecto (Inversión):**
-- Los inversionistas pueden enviar AVAX al contrato, especificando en qué proyecto están invirtiendo.
-- El contrato registra el total de AVAX invertido en cada proyecto y también lleva un registro de las inversiones individuales de cada inversionista.
-- El número total de inversionistas en un proyecto se incrementa con cada inversión.
+- **Flujo de Trabajo:**
+    - La plataforma crea un proyecto definiendo:
+        - Las direcciones del **cultivador** y del **agronomo**.
+        - Las **etapas** (milestones) del proyecto, que determinan cuándo se liberan los fondos.
+        - Los porcentajes de **participación en las ganancias**:
+            - **60% para el cultivador** (u otro valor según sea establecido).
+            - **2% para el agrónomo**.
+            - **10% para la plataforma**.
+            - **28% para los inversionistas**, repartido proporcionalmente según la cantidad que invirtió cada inversionista.
 
-#### **Liberación de Fondos al Cultivador:**
-- Los fondos se liberan al dueño del proyecto de forma escalonada, basada en los hitos o etapas del proyecto.
-- Cada hito tiene una fecha establecida en la cual se pueden liberar una parte de los fondos totales.
-- La función de liberación de fondos verifica que se haya alcanzado el hito correspondiente antes de permitir la transferencia de fondos al cultivador.
+### **2. Inversión en Proyectos**
+- **Actores Involucrados:**
+    - **Inversionistas:** Los inversionistas pueden inyectar capital (en AVAX) en los proyectos agrícolas con la expectativa de recuperar su inversión y obtener una ganancia cuando el proyecto finalice.
 
-#### **Registro de Cosecha:**
-- Una vez que todas las etapas del proyecto se han completado, el administrador del contrato puede registrar la cantidad de kilos cosechados y el precio de venta por kilo.
-- Este registro es necesario para poder vender los productos cosechados a los compradores interesados.
+- **Flujo de Trabajo:**
+    - Cualquier usuario puede invertir en un proyecto enviando AVAX al contrato, especificando el proyecto en el que desea invertir.
+    - El contrato almacena las inversiones individuales de cada inversionista y mantiene un registro del total de fondos invertidos en el proyecto.
+    - El número total de inversionistas se actualiza con cada inversión.
 
-#### **Compra de Kilos de Cosecha:**
-- Los compradores pueden adquirir la cosecha pagando en AVAX por los kilos que desean comprar.
-- El contrato distribuye automáticamente los pagos entre el cultivador, la plataforma y el agrónomo, basado en los porcentajes acordados.
-- La cantidad de kilos disponibles se actualiza a medida que se realizan las ventas, asegurando que no se vendan más de los kilos cosechados.
+### **3. Liberación de Fondos al Cultivador**
+- **Actores Involucrados:**
+    - **Plataforma:** La plataforma controla cuándo y cuánto dinero se libera al cultivador.
+    - **Cultivador:** Recibe los fondos a medida que se alcanzan los hitos del proyecto.
 
-#### **Distribución de Ganancias:**
-- Una vez que se hayan vendido todos los kilos de cosecha, el contrato distribuirá las ganancias entre las diferentes partes interesadas:
-    - 60% para el cultivador.
-    - 10% para la plataforma.
-    - 2% para el agrónomo.
-    - 28% para los inversionistas, en proporción a la cantidad invertida por cada uno.
-- La distribución de las ganancias garantiza que los inversionistas reciban primero el retorno de su capital antes de obtener cualquier ganancia adicional.
+- **Flujo de Trabajo:**
+    - Los fondos invertidos se liberan al cultivador en varias etapas según los **milestones** definidos al crear el proyecto.
+    - La plataforma verifica que el tiempo actual sea posterior al hito correspondiente antes de liberar los fondos.
+    - Estos fondos permiten que el cultivador cubra los costos operativos del proyecto (como insumos, mano de obra, etc.).
 
-#### **Devolución de Capital y Pago de Inversionistas:**
-- El contrato asegura que primero se devuelva el capital invertido por los inversionistas.
-- Una vez devuelto el capital, se distribuyen las ganancias según los porcentajes definidos en la creación del proyecto.
-- Los inversionistas reciben su parte de las ganancias en función de cuánto invirtieron en el proyecto en comparación con el total de inversiones.
+### **4. Registro de la Cosecha**
+- **Actores Involucrados:**
+    - **Plataforma:** La plataforma tiene la responsabilidad de registrar el resultado del proyecto una vez que todas las etapas hayan sido completadas.
+    - **Cultivador:** Es el responsable de proporcionar la información sobre la cantidad cosechada.
 
----
+- **Flujo de Trabajo:**
+    - Una vez que se completan todas las etapas del proyecto y se ha realizado la cosecha, la plataforma registra la cantidad de kilos cosechados y el precio por kilo en el contrato.
+    - Este registro permite que los compradores adquieran los kilos cosechados.
 
-Estas funcionalidades cubren todo el ciclo de inversión, ejecución y distribución de fondos de un proyecto agrícola, asegurando una gestión justa y transparente de los fondos y las ganancias para todas las partes involucradas (inversionistas, agrónomo, cultivador y plataforma).
+### **5. Compra de Kilos de Cosecha**
+- **Actores Involucrados:**
+    - **Compradores:** Los compradores adquieren la cosecha pagando en AVAX por los kilos cosechados.
+    - **Cultivador:** Recibe una parte del pago por la venta de la cosecha.
+    - **Agrónomo y Plataforma:** Reciben una comisión por su participación en el proyecto.
 
-# Explicación del smartcontract:
+- **Flujo de Trabajo:**
+    - Los compradores pagan en AVAX por los kilos cosechados y el contrato distribuye automáticamente los fondos según los porcentajes acordados en la creación del proyecto.
+    - Se realizan pagos directos al **cultivador**, al **agronomo** y a la **plataforma**, basados en sus porcentajes.
+    - A medida que se realizan las ventas, el contrato actualiza la cantidad de kilos restantes hasta que se agoten.
 
+### **6. Distribución de Ganancias**
+- **Actores Involucrados:**
+    - **Cultivador, Agrónomo y Plataforma:** Reciben su parte de las ganancias una vez que se haya vendido toda la cosecha.
+    - **Inversionistas:** Reciben el retorno de su inversión más una parte proporcional de las ganancias generadas por el proyecto.
 
+- **Flujo de Trabajo:**
+    - Una vez que se han vendido todos los kilos de la cosecha, la plataforma distribuye las ganancias entre los actores.
+    - **Distribución de Ganancias:**
+        - **60% al cultivador**: El cultivador, que estuvo a cargo del proyecto agrícola, recibe la mayor parte de las ganancias.
+        - **10% a la plataforma**: La plataforma recibe su comisión por crear y gestionar el proyecto.
+        - **2% al agrónomo**: El agrónomo recibe su comisión por su trabajo de asesoramiento en el proyecto.
+        - **28% a los inversionistas**: Los inversionistas recuperan primero su capital y luego reciben una parte proporcional de las ganancias según la cantidad que invirtieron.
+    - **Repartición de Ganancias a los Inversionistas:**
+        - Cada inversionista recibe un porcentaje de las ganancias correspondiente a su porcentaje de inversión en relación al total de fondos invertidos en el proyecto.
 
-### 1. **Estructura del Proyecto (`struct Project`)**
+### **7. Control de la Plataforma/Admin**
+- **Actores Involucrados:**
+    - **Plataforma:** La plataforma es la entidad que tiene el control total del flujo de los proyectos. Solo la plataforma puede:
+        - Crear proyectos.
+        - Liberar fondos.
+        - Registrar la cosecha.
+        - Distribuir las ganancias.
+
+- **Flujo de Trabajo:**
+    - La plataforma administra y controla los fondos del proyecto y la liberación de los mismos a los actores correspondientes (cultivador, agrónomo, inversionistas) según se avance en las diferentes fases del proyecto.
+
+### **Resumen del Flujo de Negocio**
+1. **Creación del Proyecto:** La plataforma crea proyectos y asigna a un cultivador y a un agrónomo, además de establecer las condiciones de inversión y participación en las ganancias.
+2. **Inversión:** Los inversionistas envían AVAX para financiar el proyecto, y los fondos se distribuyen en diferentes etapas.
+3. **Liberación de Fondos:** La plataforma libera fondos al cultivador en fases, a medida que el proyecto avanza.
+4. **Cosecha y Venta:** Una vez completada la cosecha, los compradores pueden adquirir los kilos cosechados.
+5. **Distribución de Ganancias:** Al final del proyecto, las ganancias se distribuyen entre el cultivador, el agrónomo, la plataforma y los inversionistas, asegurando que cada parte reciba su porcentaje justo.
+
+Este contrato ofrece una solución integral para proyectos de inversión agrícola, garantizando la participación transparente de todas las partes involucradas (plataforma, cultivador, agrónomo e inversionistas) y asegurando que los fondos y las ganancias se distribuyan de manera justa y segura.
+
+# Definiciones técnicas:
+
+### 1. **Estructura del Contrato y Variables Globales**
 
 ```solidity
 struct Project {
-    address owner;
+    address platform;           
+    address farmer;             
+    address agronomist;         
     uint256 totalFunds;
     uint256 releasedFunds;
     uint256 harvestedKilos;
@@ -65,52 +114,49 @@ struct Project {
 }
 ```
 
-Cada proyecto en este contrato tiene la siguiente estructura:
-- **owner**: Dirección del dueño del proyecto (el cultivador).
-- **totalFunds**: El total de AVAX que se ha invertido en el proyecto.
-- **releasedFunds**: La cantidad de fondos que ya se han liberado (para el cultivador en las etapas).
-- **harvestedKilos**: La cantidad de kilos cosechados, que se registran al final del proyecto.
-- **pricePerKilo**: El precio por kilo que se usará para vender los productos cosechados.
-- **start**: Timestamp del inicio del proyecto.
-- **milestones**: Arreglo que contiene los hitos o etapas del proyecto. Estos hitos determinan cuándo se pueden liberar los fondos.
-- **currentMilestone**: El índice del hito actual del proyecto.
-- **agronomistFee**: Porcentaje de las ganancias que se destina al agrónomo.
-- **farmerFee**: Porcentaje de las ganancias que se destina al cultivador.
-- **platformFee**: Porcentaje de las ganancias que se destina a la plataforma.
-- **investorPercentage**: Porcentaje de las ganancias que se destina a los inversionistas.
-- **totalInvestors**: Número total de inversionistas en el proyecto.
+#### Explicación:
+- **platform**: Dirección de la plataforma/admin, quien tiene control total sobre los proyectos.
+- **farmer**: Dirección del cultivador (agricultor), que será quien reciba los fondos y ejecute el proyecto agrícola.
+- **agronomist**: Dirección del agrónomo que asiste técnicamente al proyecto y recibe una comisión.
+- **totalFunds**: Total de fondos (AVAX) invertidos en el proyecto por los inversionistas.
+- **releasedFunds**: Fondos que ya han sido liberados para el cultivador durante las distintas etapas del proyecto.
+- **harvestedKilos**: Cantidad de kilos cosechados, que se registra una vez que el proyecto finaliza.
+- **pricePerKilo**: Precio de venta por cada kilo cosechado.
+- **start**: Momento en el que el proyecto fue creado.
+- **milestones**: Un array de fechas o etapas, que define cuándo se pueden liberar los fondos.
+- **currentMilestone**: Índice del hito actual, indicando en qué etapa se encuentra el proyecto.
+- **agronomistFee**, **farmerFee**, **platformFee**, **investorPercentage**: Son los porcentajes de las ganancias que corresponden a cada actor del proyecto.
+- **totalInvestors**: Número total de inversionistas que han invertido en el proyecto.
 
-### 2. **Inversiones por Proyecto**
+### 2. **Constructor del Contrato**
+
 ```solidity
-mapping(uint256 => mapping(address => uint256)) public investments;
+constructor() {
+    admin = msg.sender; // La plataforma/admin es quien despliega el contrato
+}
 ```
 
-Este mapping guarda cuánto ha invertido cada inversor en un proyecto. Está estructurado de manera que cada proyecto tiene un mapping que asigna a cada dirección de inversionista la cantidad de AVAX que invirtió.
+#### Explicación:
+- **admin**: El contrato inicializa el `admin` (plataforma) como la cuenta que despliega el contrato. Solo esta cuenta puede crear y gestionar proyectos. El `admin` tiene un control centralizado sobre la operación de los proyectos.
 
-### 3. **Eventos**
-El contrato incluye varios eventos que permiten registrar y notificar acciones importantes en el contrato:
+### 3. **Función `createProject`**
 
-- **ProjectCreated**: Emitido cuando se crea un nuevo proyecto.
-- **FundsInvested**: Emitido cuando un inversionista aporta fondos a un proyecto.
-- **FundsReleased**: Emitido cuando se liberan fondos para el dueño del proyecto.
-- **HarvestRegistered**: Emitido cuando se registra la cosecha.
-- **KilosPurchased**: Emitido cuando se compran kilos de la cosecha.
-- **InvestorPayout**: Emitido cuando se paga a un inversionista.
-- **ProfitDistributed**: Emitido cuando se distribuyen las ganancias entre los participantes.
-
-### 4. **Creación de Proyecto (`createProject`)**
 ```solidity
 function createProject(
+    address _farmer,
+    address _agronomist,
     uint256[] memory _milestones,
     uint256 _agronomistFee,
     uint256 _farmerFee,
     uint256 _platformFee,
     uint256 _investorPercentage
-) public {
+) public onlyAdmin {
     require(_agronomistFee + _farmerFee + _platformFee + _investorPercentage == 100, "The fees must sum to 100%");
     projectCount++;
     projects[projectCount] = Project({
-        owner: msg.sender,
+        platform: admin,
+        farmer: _farmer,
+        agronomist: _agronomist,
         totalFunds: 0,
         releasedFunds: 0,
         harvestedKilos: 0,
@@ -124,17 +170,17 @@ function createProject(
         investorPercentage: _investorPercentage,
         totalInvestors: 0
     });
-    emit ProjectCreated(projectCount, msg.sender);
+    emit ProjectCreated(projectCount, _farmer, _agronomist);
 }
 ```
 
-Esta función permite la creación de un proyecto de cultivo, donde se definen:
-- **Milestones**: Los hitos que determinan cuándo se liberan fondos.
-- **Porcentajes**: Las comisiones para el agrónomo, cultivador, plataforma, y los inversionistas.
+#### Explicación:
+- Esta función permite al admin crear un nuevo proyecto, asignando las direcciones del **farmer** (cultivador) y el **agronomist** (agronomo), junto con los hitos de liberación de fondos y los porcentajes de participación en las ganancias.
+- Se asegura que los porcentajes asignados a cada parte sumen el 100%.
+- Incrementa el contador de proyectos `projectCount` y almacena la información del proyecto en el mapping `projects`.
 
-Se asegura que la suma de los porcentajes sea del 100%. Al crear un proyecto, se incrementa el contador de proyectos (`projectCount`) y se almacena la información en el mapping `projects`.
+### 4. **Función `investFunds`**
 
-### 5. **Inversiones en el Proyecto (`investFunds`)**
 ```solidity
 function investFunds(uint256 _id) public payable {
     require(msg.value > 0, "You must send AVAX to invest");
@@ -146,26 +192,34 @@ function investFunds(uint256 _id) public payable {
 }
 ```
 
-Esta función permite que los inversionistas envíen AVAX a un proyecto. Los fondos invertidos se registran tanto en el balance total del proyecto como en el mapping `investments` para saber cuánto ha aportado cada inversor.
+#### Explicación:
+- Permite a cualquier usuario enviar AVAX e invertir en un proyecto.
+- La cantidad invertida se suma al total de fondos del proyecto `totalFunds` y se almacena en el mapping `investments`, que lleva un registro de cuánto ha invertido cada inversor.
+- El número total de inversionistas del proyecto se actualiza.
 
-### 6. **Liberación de Fondos por Etapas (`releaseFunds`)**
+### 5. **Función `releaseFunds`**
+
 ```solidity
-function releaseFunds(uint256 _id) public onlyPlatform {
+function releaseFunds(uint256 _id) public onlyAdmin {
     Project storage project = projects[_id];
     require(block.timestamp >= project.milestones[project.currentMilestone], "It's not time to release the funds yet");
     uint256 amountToRelease = project.totalFunds / project.milestones.length;
     project.releasedFunds += amountToRelease;
     project.currentMilestone++;
-    payable(project.owner).transfer(amountToRelease);
+    payable(project.farmer).transfer(amountToRelease);
     emit FundsReleased(_id, amountToRelease);
 }
 ```
 
-Esta función libera los fondos al dueño del proyecto (el cultivador) de manera escalonada, según los hitos predefinidos. Solo la plataforma puede liberar estos fondos, y la cantidad liberada es proporcional al total de fondos del proyecto dividido por el número de hitos.
+#### Explicación:
+- Esta función permite al admin liberar los fondos al cultivador (farmer) en etapas.
+- Se verifica que se haya alcanzado el hito correspondiente antes de liberar los fondos.
+- Se transfiere la parte correspondiente de los fondos al **farmer** para que pueda continuar ejecutando el proyecto agrícola.
 
-### 7. **Registro de la Cosecha (`registerHarvest`)**
+### 6. **Función `registerHarvest`**
+
 ```solidity
-function registerHarvest(uint256 _id, uint256 _kilos, uint256 _pricePerKilo) public onlyPlatform {
+function registerHarvest(uint256 _id, uint256 _kilos, uint256 _pricePerKilo) public onlyAdmin {
     Project storage project = projects[_id];
     require(project.currentMilestone == project.milestones.length, "All milestones must be completed before registering the harvest");
     project.harvestedKilos = _kilos;
@@ -174,9 +228,12 @@ function registerHarvest(uint256 _id, uint256 _kilos, uint256 _pricePerKilo) pub
 }
 ```
 
-Una vez que todas las etapas del proyecto se han completado, la plataforma puede registrar la cantidad de kilos cosechados y el precio por kilo para vender la cosecha.
+#### Explicación:
+- Esta función permite registrar la cantidad de kilos cosechados y el precio por kilo una vez que todas las etapas del proyecto se hayan completado.
+- Solo puede ser ejecutada por el **admin** y marca la finalización de la parte operativa del proyecto, permitiendo que se realicen las ventas.
 
-### 8. **Compra de Kilos de Cosecha (`buyKilos`)**
+### 7. **Función `buyKilos`**
+
 ```solidity
 function buyKilos(uint256 _id, uint256 _kilos) public payable {
     Project storage project = projects[_id];
@@ -188,49 +245,45 @@ function buyKilos(uint256 _id, uint256 _kilos) public payable {
     totalFees += (cost * project.farmerFee) / 100;
     totalFees += (cost * project.platformFee) / 100;
 
-    // Distribute payments and fees
-    payable(project.owner).transfer(cost - totalFees);
-    payable(platform).transfer((cost * project.platformFee) / 100);
+    payable(project.farmer).transfer(cost - totalFees);
+    payable(admin).transfer((cost * project.platformFee) / 100);
+    payable(project.agronomist).transfer((cost * project.agronomistFee) / 100);
 
-    // Update project state
     project.harvestedKilos -= _kilos;
     emit KilosPurchased(_id, msg.sender, _kilos);
 }
 ```
 
-Los compradores pueden comprar kilos de la cosecha pagando en AVAX. El contrato distribuye automáticamente las comisiones entre el cultivador, la plataforma y el agrónomo.
+#### Explicación:
+- Permite a los compradores adquirir kilos de la cosecha pagando en AVAX.
+- El costo total de los kilos se distribuye entre el **farmer** (cultivador), el **admin** (plataforma) y el **agronomist** (agronomo), según los porcentajes definidos en el proyecto.
+- Se actualiza el estado del proyecto reduciendo el número de kilos disponibles para la venta.
 
-### 9. **Distribución de Ganancias Proporcional (`distributeProfits`)**
+### 8. **Función `distributeProfits`**
+
 ```solidity
-function distributeProfits(uint256 _id) public onlyPlatform {
+function distributeProfits(uint256 _id) public onlyAdmin {
     Project storage project = projects[_id];
-    uint256 totalProfits = project.totalFunds - project.releasedFunds; // Ganancias después de liberar el capital
-    
-    // Distribuir porcentajes
+    uint256 totalProfits = project.totalFunds - project.releasedFunds;
+
     uint256 farmerAmount = (totalProfits * project.farmerFee) / 100;
     uint256 platformAmount = (totalProfits * project.platformFee) / 100;
     uint256 agronomistAmount = (totalProfits * project.agronomistFee) / 100;
     uint256 investorAmount = (totalProfits * project.investorPercentage) / 100;
 
-    // Pagar al cultivador
-    payable(project.owner).transfer(farmerAmount);
+    payable(project.farmer).transfer(farmerAmount);
+    payable(admin).transfer(platformAmount);
+    payable(project.agronomist).transfer(agronomistAmount);
 
-    // Pagar a la plataforma
-    payable(platform).transfer(platformAmount);
-
-    // Pagar al agrónomo
-    payable(platform).transfer(agronomistAmount);
-
-    // Distribuir a los inversionistas proporcionalmente
     for (uint256 i = 0; i < project.totalInvestors; i++) {
-        address investor = msg.sender; // Obtener dirección del inversionista
+        address investor = msg.sender;
         uint256 investmentAmount = investments[_id][investor];
         if (investmentAmount > 0) {
-            uint256 payout = (investmentAmount * investorAmount) / project.totalFunds; // Proporcional a su inversión
-            investments[_id][investor] =
+            uint256 payout = (investmentAmount * investorAmount) / project.totalFunds;
+            investments[_id][investor] = 0;
+            payable
 
- 0; // Reiniciar inversión tras el pago
-            payable(investor).transfer(payout);
+(investor).transfer(payout);
             emit InvestorPayout(_id, investor, payout);
         }
     }
@@ -239,13 +292,16 @@ function distributeProfits(uint256 _id) public onlyPlatform {
 }
 ```
 
-Este método distribuye las **ganancias** del proyecto de acuerdo con los porcentajes establecidos. El flujo es el siguiente:
-1. **Se devuelven primero las inversiones**.
-2. Luego, las **ganancias** se distribuyen:
-    - El 60% para el cultivador.
-    - El 10% para la plataforma.
-    - El 2% para el agrónomo.
-    - El 28% para los inversionistas, de manera proporcional a la cantidad que invirtieron.
+#### Explicación:
+- Esta función distribuye las ganancias del proyecto entre el **farmer**, **admin**, **agronomist**, y los **inversionistas**.
+- Las ganancias se calculan restando los fondos ya liberados a los fondos totales.
+- Cada parte recibe su porcentaje según los términos definidos en la creación del proyecto.
+- Los inversionistas reciben su parte proporcional de las ganancias basadas en su inversión original.
+
+### Conclusión Técnica:
+
+Este contrato gestiona todo el ciclo de vida de un proyecto agrícola, desde la inversión inicial, la liberación de fondos por etapas, la venta de la cosecha y la distribución final de las ganancias. Cada actor en el contrato (plataforma, cultivador, agrónomo, inversionistas) tiene su propio rol definido y sus pagos garantizados según los términos establecidos al inicio del proyecto.
+
 
 ### Más información:
 [APP](https://uchuvalabs.xyz) de UchuvaLabs.
