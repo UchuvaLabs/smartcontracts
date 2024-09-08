@@ -88,7 +88,7 @@ contract FarmingProject {
         uint256 amountToRelease = project.totalFunds / project.milestones.length;
         project.releasedFunds += amountToRelease;
         project.currentMilestone++;
-        payable(project.farmer).transfer(amountToRelease); // Ahora los fondos van al cultivador
+        payable(project.platform).transfer(amountToRelease); // Ahora los fondos van al admin
         emit FundsReleased(_id, amountToRelease);
     }
 
@@ -105,15 +105,6 @@ contract FarmingProject {
         uint256 cost = _kilos * project.pricePerKilo;
         require(msg.value >= cost, "Insufficient funds to buy the kilos");
         require(project.harvestedKilos >= _kilos, "Not enough kilos available");
-
-        uint256 totalFees = (cost * project.agronomistFee) / 100;
-        totalFees += (cost * project.farmerFee) / 100;
-        totalFees += (cost * project.platformFee) / 100;
-
-        // Distribute payments and fees
-        payable(project.farmer).transfer(cost - totalFees);          // Pago al cultivador
-        payable(admin).transfer((cost * project.platformFee) / 100); // Pago a la plataforma
-        payable(project.agronomist).transfer((cost * project.agronomistFee) / 100); // Pago al agrónomo
 
         // Actualiza el estado del proyecto
         project.harvestedKilos -= _kilos;
